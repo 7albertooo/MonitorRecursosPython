@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $context = stream_context_create($options);
 
         $resultado = file_get_contents(
-            "http://127.0.0.1:8000/estado",
+            "https://monitorrecursospython.onrender.com/estado",
             false,
             $context
         );

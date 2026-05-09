@@ -1,4 +1,0 @@
-fastapi
-uvicorn
-paramiko
-pydantic
