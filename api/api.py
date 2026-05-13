@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from sshCon import ejecutar_comando
+from api.sshCon import ejecutar_comando
 
 app = FastAPI()
 
-# Configuración de CORS para que tu PHP (en otro hosting) pueda entrar
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  
@@ -20,23 +20,56 @@ class Servidor(BaseModel):
 
 @app.post("/estado")
 def obtener_estado(servidor: Servidor):
+    # Usamos un separador claro para evitar que las salidas se peguen
+    separador = "SEPARATOR_LINE"
     
-    comando_unico = (
-        "uptime -p | sed 's/up //'; "
-        "df -h / --output=pcent | tail -1; "
-        "free | awk '/Mem:/ {printf \"%.2f%%\", $3/$2*100}'"
-    )
+    comandos = [
+        "uptime -p | sed 's/up //'",                                     # 0: Uptime
+        "df -h / --output=pcent | tail -1",                             # 1: Disco
+        "free | awk '/Mem:/ {printf \"%.2f%%\", $3/$2*100}'",           # 2: RAM
+        "cat /proc/loadavg | awk '{print $1}'",                         # 3: Load
+        "cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null || echo 0", # 4: Temp
+        "ps -eo %cpu,cmd --sort=-%cpu | head -n 6 | tail -n 5"          # 5: Procesos
+    ]
     
-    raw_output = ejecutar_comando(servidor.ip, servidor.usuario, servidor.password, comando_unico)
+    # Unimos con echo para forzar el salto de línea real
+    comando_final = f" && echo {separador} && ".join(comandos)
+
+    raw_output = ejecutar_comando(servidor.ip, servidor.usuario, servidor.password, comando_final)
+    
+    # Limpiamos y dividimos por nuestro separador
+    partes = [p.strip() for p in raw_output.split("SEPARATOR_LINE")]
+
+    if len(partes) < 6:
+        return {"error": "Datos incompletos", "bruto": partes}
+
+    # Procesar temperatura (de milicelsius a grados)
+    try:
+        temp_c = float(partes[4]) / 1000
+    except:
+        temp_c = 0.0
+
+    return {
+        "uptime": partes[0],
+        "disco": partes[1],
+        "ram": partes[2],
+        "cpu": partes[3],
+        "temp": f"{temp_c:.1f}°C",
+        "procesos": partes[5].split('\n') if len(partes) > 5 else []
+    }
     
 
-    lineas = raw_output.strip().split('\n')
+@app.post("/orden")
+def ejecutar_orden(servidor: Servidor, accion: str):
+   
+    comandos = {
+        "reiniciar": "sudo reboot",
+        "apagar": "sudo poweroff"
+    }
     
-    if len(lineas) >= 3:
-        return {
-            "uptime": lineas[0].strip(),
-            "disk": lineas[1].strip(),
-            "ram": lineas[2].strip()
-        }
+    if accion in comandos:
+        # Ejecutamos el comando SSH
+        ejecutar_comando(servidor.ip, servidor.usuario, servidor.password, comandos[accion])
+        return {"status": "ok", "message": f"Comando {accion} enviado"}
     
-    return {"error": "No se pudo obtener la información completa"}
+    return {"status": "error", "message": "Acción no válida"}
