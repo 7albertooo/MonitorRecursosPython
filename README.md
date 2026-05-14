@@ -80,4 +80,4 @@ Privacidad: Nunca subas tus archivos .venv o credenciales reales al repositorio 
 
 Temperatura: La monitorización de temperatura depende de la disponibilidad de thermal_zone0 en el servidor destino.[cite: 1]
 
-![alt text](image.png)
+<img src="https://raw.githubusercontent.com/7albertooo/MonitorRecursosPython/main/image.png" width="800">
