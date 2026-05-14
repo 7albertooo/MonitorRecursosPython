@@ -20,7 +20,7 @@
                 <div>
                     <p class="text-sm uppercase tracking-[0.3em] text-sky-300/80">Estado del sistema</p>
                     <h1 class="mt-2 text-3xl font-semibold text-white">Dashboard de monitorización</h1>
-                    <p class="mt-2 max-w-2xl text-slate-400">Visualiza el uptime, uso de disco y RAM de tu API en tiempo real.</p>
+                    <p class="mt-2 max-w-2xl text-slate-400">Visualiza el Uptime, RAM, Temperatura y otras opciones de tu equipo.</p>
                 </div>
             </div>
         </header>

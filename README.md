@@ -79,3 +79,5 @@ Credenciales: Esta aplicación no almacena contraseñas; los datos viajan por PO
 Privacidad: Nunca subas tus archivos .venv o credenciales reales al repositorio público.[cite: 1]
 
 Temperatura: La monitorización de temperatura depende de la disponibilidad de thermal_zone0 en el servidor destino.[cite: 1]
+
+![alt text](image.png)
