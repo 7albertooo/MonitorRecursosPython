@@ -1,10 +1,10 @@
-# 🚀 Remote Server Monitor (SSH)
+# Remote Server Monitor (SSH)
 
 Una solución ligera y moderna para la monitorización de recursos de servidores Linux en tiempo real. Este proyecto utiliza un backend en **FastAPI** para la comunicación SSH y un frontend elegante construido con **PHP** y **Tailwind CSS**.
 
 ---
 
-## 📋 Características
+## Características
 
 - **Métricas en Tiempo Real:** Visualización de Uptime, uso de Disco, RAM y Carga de CPU.
 - **Monitoreo de Temperatura:** Seguimiento térmico del sistema.
@@ -14,7 +14,7 @@ Una solución ligera y moderna para la monitorización de recursos de servidores
 
 ---
 
-## 🛠️ Requisitos Previos
+## Requisitos Previos
 
 Antes de empezar, asegúrate de tener instalado:
 
@@ -24,7 +24,7 @@ Antes de empezar, asegúrate de tener instalado:
 
 ---
 
-## 🔧 Instalación
+## Instalación
 
 ### 1. Clonar el repositorio
 
@@ -59,7 +59,7 @@ Mueve los archivos web a tu servidor:
 
 ---
 
-## 🚀 Ejecución
+## Ejecución
 
 ### Iniciar la API
 
@@ -75,7 +75,7 @@ http://localhost/tu-carpeta/index.php
 
 ---
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```text
 MONITORRECURSOS/
@@ -90,7 +90,7 @@ MONITORRECURSOS/
 
 ---
 
-## 📸 Captura
+## Dashborad
 
 <img src="https://raw.githubusercontent.com/7albertooo/MonitorRecursosPython/main/image.png" width="900">
 
